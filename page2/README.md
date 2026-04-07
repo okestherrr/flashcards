@@ -1,4 +1,4 @@
-# StudyFlashCards (Update)
+# StudyFlashCards
 
 This project is a flashcard web app made for school. It helps users study by flipping cards, marking what they know, and tracking progress through a deck.
 
