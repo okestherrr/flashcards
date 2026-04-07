@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyFlashCards</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <span class="logo-text">StudyFlashCards</span>
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="/" class="nav-link <% if (page === 'home') { %>active<% } %>" id="nav-home" aria-label="Go to Home section" <% if (page === 'home') { %>aria-current="page"<% } %>>Home</a>
+        <a href="/study" class="nav-link <% if (page === 'study') { %>active<% } %>" id="nav-study" aria-label="Go to Study Session section" <% if (page === 'study') { %>aria-current="page"<% } %>>Study Session</a>
+      </nav>
+    </header>
+
+    <main>
+      <% if (page === 'home') { %>
+        <section id="home" class="page active" aria-label="Home">
+          <div class="hero">
+            <img
+              src="/images/studyflashcards-logo.svg"
+              alt="StudyFlashCards logo showing a gold star"
+              class="hero-img"
+              width="140"
+              height="140"
+            />
+            <h1>StudyFlashCards</h1>
+            <p class="hero-desc">
+              Simple flashcards to study with
+            </p>
+            <p class="deck-info" id="deck-info">Deck contains <%= deckSize %> cards.</p>
+            <form method="POST" action="/study">
+              <button class="btn-primary" type="submit">
+                Push to Start Studying
+              </button>
+            </form>
+          </div>
+        </section>
+      <% } else if (page === 'study') { %>
+        <section id="study" class="page active" aria-label="Study Session">
+          <h2 class="section-title">Study Session</h2>
+
+          <% if (error) { %>
+            <div class="error-message" style="background: #fff3cd; border: 1px solid #ffc107; color: #856404; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+              ⚠️ <%= error %>
+            </div>
+          <% } %>
+
+          <p class="progress-text" id="progress-text">Card <%= cardIndex %> of <%= totalCards %></p>
+          <div class="progress-bar-wrap" aria-hidden="true">
+            <div class="progress-bar" id="progress-bar" data-progress="<%= Math.round((cardIndex / totalCards) * 100) %>"></div>
+          </div>
+
+          <div
+            class="card-scene"
+            id="card-scene"
+            role="button"
+            tabindex="0"
+            aria-label="Flashcard — click to flip"
+          >
+            <div class="card" id="card">
+              <div class="card-face card-front" id="card-front">
+                <span class="card-label">Question</span>
+                <p id="front-text"><%= currentCard.term %></p>
+              </div>
+              <div class="card-face card-back" id="card-back">
+                <span class="card-label">Answer</span>
+                <p id="back-text"><%= currentCard.definition %></p>
+              </div>
+            </div>
+          </div>
+
+          <p class="status-badge" id="status-badge" aria-live="polite">
+            <% if (currentCard.status === 'known') { %>
+              <span style="color: green;">✓ Known</span>
+            <% } else if (currentCard.status === 'review') { %>
+              <span style="color: orange;">✎ Needs Review</span>
+            <% } %>
+          </p>
+
+          <div class="controls">
+            <form method="POST" action="/card" style="display: inline;">
+              <input type="hidden" name="action" value="prev">
+              <input type="hidden" name="currentIndex" value="<%= cardIndex - 1 %>">
+              <button class="btn-secondary" type="submit" aria-label="Previous card">&#8592; Prev</button>
+            </form>
+
+            <form method="POST" action="/mark-card" style="display: inline;">
+              <input type="hidden" name="status" value="known">
+              <input type="hidden" name="currentIndex" value="<%= cardIndex - 1 %>">
+              <button class="btn-accent known-btn" type="submit">&#10003; Known</button>
+            </form>
+
+            <form method="POST" action="/mark-card" style="display: inline;">
+              <input type="hidden" name="status" value="review">
+              <input type="hidden" name="currentIndex" value="<%= cardIndex - 1 %>">
+              <button class="btn-accent review-btn" type="submit">&#9998; Review</button>
+            </form>
+
+            <form method="POST" action="/card" style="display: inline;">
+              <input type="hidden" name="action" value="next">
+              <input type="hidden" name="currentIndex" value="<%= cardIndex - 1 %>">
+              <button class="btn-secondary" type="submit" aria-label="Next card">Next &#8594;</button>
+            </form>
+          </div>
+
+          <div class="extra-controls">
+            <form method="POST" action="/shuffle" style="display: inline;">
+              <button class="btn-outline" type="submit">&#8635; Shuffle</button>
+            </form>
+            <form method="POST" action="/reset" style="display: inline;">
+              <button class="btn-outline" type="submit">&#8634; Reset</button>
+            </form>
+          </div>
+        </section>
+      <% } %>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="year"></span> Esther Scott</p>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const progressBar = document.getElementById('progress-bar');
+      if (progressBar) {
+        progressBar.style.width = progressBar.dataset.progress + '%';
+      }
+      
+      // Card flip functionality
+      const cardScene = document.getElementById('card-scene');
+      const card = document.getElementById('card');
+      
+      if (cardScene) {
+        cardScene.addEventListener('click', function() {
+          card.classList.toggle('flipped');
+        });
+        
+        cardScene.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.classList.toggle('flipped');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,297 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #bbc5a9;
+  color: #1f1f1f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+header {
+  background: #7a3f5d;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #7a3f5d;
+  color: #ffffff;
+}
+
+.nav-link:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+main {
+  flex: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px 16px 24px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+#study {
+  background: white;
+  border-radius: 10px;
+  padding: 20px 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.hero,
+.summary {
+  background: white;
+  border-radius: 10px;
+  padding: 4px 16px 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.hero-img {
+  margin: 0 auto 0;
+  width: 250px;
+  height: 250px;
+}
+
+h1,
+.section-title,
+.summary h3 {
+  margin: 0 0 6px;
+  color: #2e5f80;
+}
+
+.hero-desc {
+  max-width: 460px;
+  margin: 0 auto 12px;
+  line-height: 1.5;
+}
+
+.deck-info {
+  color: #7a3f5d;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: 0;
+  background: #2e5f80;
+  color: white;
+  border-radius: 20px;
+  padding: 10px 26px;
+}
+
+.btn-primary:hover {
+  background: #7a3f5d;
+}
+
+.progress-text {
+  text-align: center;
+  margin: 4px 0 6px;
+}
+
+.progress-bar-wrap {
+  background: #dddddd;
+  height: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  background: #7baacc;
+  height: 100%;
+  width: 0%;
+}
+
+.card-scene {
+  width: 100%;
+  max-width: 500px;
+  height: 220px;
+  margin: 0 auto 10px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.card-front {
+  background: white;
+  border: 3px solid #2e5f80;
+}
+
+.card-back {
+  background: #2e5f80;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.card-label {
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+#front-text,
+#back-text {
+  font-size: 1.15rem;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.status-badge {
+  text-align: center;
+  min-height: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.status-badge.known {
+  color: #2e7d32;
+}
+
+.status-badge.review {
+  color: #c62828;
+}
+
+.controls,
+.extra-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-secondary,
+.btn-outline,
+.btn-accent {
+  border-radius: 8px;
+  border: 0;
+  padding: 8px 14px;
+}
+
+.btn-secondary {
+  background: #bbc5a9;
+}
+
+.btn-outline {
+  border: 2px solid #7a3f5d;
+  background: white;
+  color: #7a3f5d;
+}
+
+.btn-accent {
+  color: white;
+}
+
+.known-btn {
+  background: #4caf50;
+}
+
+.review-btn {
+  background: #e57373;
+}
+
+#summary-text {
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+footer {
+  background: #7a3f5d;
+  color: white;
+  text-align: center;
+  padding: 12px;
+}
+
+@media (min-width: 600px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 32px;
+  }
+
+  .hero-img {
+    width: 320px;
+    height: 320px;
+  }
+
+  #study {
+    padding: 24px;
+  }
+
+  .card-scene {
+    height: 260px;
+  }
+}

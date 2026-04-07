@@ -1,0 +1,8 @@
+{
+  "name": "page-workspace",
+  "private": true,
+  "scripts": {
+    "setup": "npm --prefix page2 install",
+    "start": "npm --prefix page2 start"
+  }
+}
